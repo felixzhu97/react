@@ -1,24 +1,32 @@
-@startuml C4_组件图
+@startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title 组件图
+title React框架组件图
 
-Container_Boundary(web应用, "Web应用") {
-    Component(前端组件, "前端组件", "React", "UI展示")
-    Component(状态管理, "状态管理", "Redux", "应用状态管理")
-    Component(路由控制, "路由控制", "React Router", "页面导航")
+Container_Boundary(reconciler_boundary, "协调器") {
+    Component(fiber, "Fiber节点", "工作单元")
+    Component(work_loop, "工作循环", "渲染调度")
+    Component(diff_algorithm, "差异算法", "计算变更")
+    Component(commit_phase, "提交阶段", "应用变更")
 }
 
-Container_Boundary(api服务, "API服务") {
-    Component(控制器, "控制器", "Express", "请求处理")
-    Component(服务层, "服务层", "Node.js", "业务逻辑")
-    Component(数据访问, "数据访问", "TypeORM", "数据库操作")
+Container_Boundary(renderer_boundary, "渲染器") {
+    Component(dom_renderer, "DOM渲染器", "网页渲染")
+    Component(native_renderer, "原生渲染器", "移动端渲染")
 }
 
-Rel(前端组件, 状态管理, "使用")
-Rel(前端组件, 路由控制, "使用")
-Rel(路由控制, 控制器, "调用", "REST API")
-Rel(控制器, 服务层, "调用")
-Rel(服务层, 数据访问, "调用")
+Rel(fiber, work_loop, "构建树")
+Rel(work_loop, diff_algorithm, "计算差异")
+Rel(diff_algorithm, commit_phase, "准备更新")
+Rel(commit_phase, dom_renderer, "DOM更新")
+Rel(commit_phase, native_renderer, "原生更新")
+
+legend right
+<b>核心组件</b>
+1. Fiber: 新的协调架构
+2. 工作循环: 可中断渲染
+3. 差异算法: 高效计算变更
+4. 渲染器: 多平台支持
+endlegend
 
 @enduml

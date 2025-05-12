@@ -1,37 +1,26 @@
-# React编译器核心原理
+# React框架核心原理
 
-## 1. 整体架构
-React编译器采用多阶段处理架构：
-- **解析阶段**：将JSX转换为AST
-- **优化阶段**：应用各种优化策略
-- **代码生成**：输出优化后的JavaScript代码
+## 1. 虚拟DOM与协调算法
+- **虚拟DOM**：轻量级的JavaScript对象表示
+- **协调过程**：通过Diff算法比较新旧虚拟DOM
+- **Fiber架构**：可中断的渐进式渲染
 
-## 2. 关键技术
+## 2. 组件生命周期
+- **挂载阶段**：constructor → render → componentDidMount
+- **更新阶段**：shouldComponentUpdate → render → componentDidUpdate  
+- **卸载阶段**：componentWillUnmount
 
-### 2.1 JSX转换
-```mermaid
-graph TD
-    A[JSX代码] --> B[Parse]
-    B --> C[AST]
-    C --> D[Transform]
-    D --> E[优化后的AST]
-    E --> F[Generate]
-    F --> G[JavaScript代码]
-```
+## 3. Hooks系统
+- **状态管理**：useState, useReducer
+- **副作用处理**：useEffect, useLayoutEffect
+- **性能优化**：useMemo, useCallback
 
-### 2.2 优化策略
-- 组件树静态分析
-- 冗余渲染消除
-- Hook调用优化
-- 条件渲染优化
+## 4. 事件系统
+- 合成事件(SyntheticEvent)
+- 事件委托机制
+- 跨浏览器兼容处理
 
-## 3. 工作流程
-1. 代码解析：使用Babel解析器生成AST
-2. 依赖分析：建立组件依赖图
-3. 优化处理：应用预设优化规则
-4. 代码生成：输出优化结果
-
-## 4. 性能优势
-- 运行时开销减少30%-50%
-- 包体积缩小20%-40%
-- 内存使用降低15%-25%
+## 5. 并发模式
+- 时间切片(Time Slicing)
+- 优先级调度
+- Suspense异步渲染

@@ -1,48 +1,32 @@
-@startuml C4_Code
-title React代码结构
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-class React组件 {
-  +props: 对象
-  +state: 对象
-  +render(): JSX
-  +useEffect()
-  +useState()
-  +生命周期方法()
+title React框架代码图
+
+Boundary(fiber_component, "Fiber节点实现") {
+    Component(fiber_node, "FiberNode", "表示组件树节点")
+    Component(update_queue, "UpdateQueue", "状态更新队列")
+    Component(effect_list, "EffectList", "副作用列表")
 }
 
-class Redux存储 {
-  +store: 对象
-  +reducers: 对象
-  +actions: 对象
-  +dispatch()
-  +getState()
+Boundary(hook_component, "Hook系统") {
+    Component(use_state, "useState", "状态Hook")
+    Component(use_effect, "useEffect", "副作用Hook")
+    Component(hook_dispatcher, "HookDispatcher", "Hook调度")
 }
 
-interface API服务 {
-  +fetchData()
-  +postData()
-  +updateData()
-  +deleteData()
-}
+Rel(fiber_node, update_queue, "维护更新")
+Rel(fiber_node, effect_list, "跟踪副作用")
+Rel(hook_dispatcher, fiber_node, "关联节点")
+Rel(use_state, hook_dispatcher, "注册状态")
+Rel(use_effect, hook_dispatcher, "注册副作用")
 
-React组件 --> Redux存储 : "使用"
-React组件 --> API服务 : "调用"
-Redux存储 --> API服务 : "异步action调用"
-
-note top of React组件 
-  React函数组件示例：
-  function MyComponent() {
-    const [state] = useState();
-    useEffect(() => {});
-    return <div/>;
-  }
-end note
-
-note right of Redux存储
-  Redux配置示例：
-  const store = configureStore({
-    reducer: rootReducer
-  });
-end note
+legend right
+<b>关键代码结构</b>
+1. FiberNode: 组件树的节点表示
+2. UpdateQueue: 状态更新机制
+3. EffectList: 副作用管理系统
+4. Hooks: 函数组件状态管理
+endlegend
 
 @enduml
