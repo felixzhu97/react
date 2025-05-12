@@ -1,0 +1,17 @@
+@startuml C4_容器图
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title 容器图
+
+Person(用户, "用户", "系统的使用者")
+System_Boundary(系统边界, "目标系统") {
+    Container(web应用, "Web应用", "React", "提供用户界面")
+    Container(api服务, "API服务", "Node.js", "处理业务逻辑")
+    Container(数据库, "数据库", "PostgreSQL", "存储数据")
+}
+
+Rel(用户, web应用, "使用", "HTTP/HTTPS")
+Rel(web应用, api服务, "调用", "REST API")
+Rel(api服务, 数据库, "读写", "JDBC")
+
+@enduml

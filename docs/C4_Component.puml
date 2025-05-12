@@ -1,0 +1,24 @@
+@startuml C4_组件图
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title 组件图
+
+Container_Boundary(web应用, "Web应用") {
+    Component(前端组件, "前端组件", "React", "UI展示")
+    Component(状态管理, "状态管理", "Redux", "应用状态管理")
+    Component(路由控制, "路由控制", "React Router", "页面导航")
+}
+
+Container_Boundary(api服务, "API服务") {
+    Component(控制器, "控制器", "Express", "请求处理")
+    Component(服务层, "服务层", "Node.js", "业务逻辑")
+    Component(数据访问, "数据访问", "TypeORM", "数据库操作")
+}
+
+Rel(前端组件, 状态管理, "使用")
+Rel(前端组件, 路由控制, "使用")
+Rel(路由控制, 控制器, "调用", "REST API")
+Rel(控制器, 服务层, "调用")
+Rel(服务层, 数据访问, "调用")
+
+@enduml

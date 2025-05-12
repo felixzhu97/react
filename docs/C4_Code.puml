@@ -1,0 +1,48 @@
+@startuml C4_Code
+title React代码结构
+
+class React组件 {
+  +props: 对象
+  +state: 对象
+  +render(): JSX
+  +useEffect()
+  +useState()
+  +生命周期方法()
+}
+
+class Redux存储 {
+  +store: 对象
+  +reducers: 对象
+  +actions: 对象
+  +dispatch()
+  +getState()
+}
+
+interface API服务 {
+  +fetchData()
+  +postData()
+  +updateData()
+  +deleteData()
+}
+
+React组件 --> Redux存储 : "使用"
+React组件 --> API服务 : "调用"
+Redux存储 --> API服务 : "异步action调用"
+
+note top of React组件 
+  React函数组件示例：
+  function MyComponent() {
+    const [state] = useState();
+    useEffect(() => {});
+    return <div/>;
+  }
+end note
+
+note right of Redux存储
+  Redux配置示例：
+  const store = configureStore({
+    reducer: rootReducer
+  });
+end note
+
+@enduml

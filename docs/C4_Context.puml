@@ -1,0 +1,26 @@
+@startuml C4_Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title React编译器系统上下文图
+
+Person(开发者, "开发者", "使用React编译器的开发人员")
+Person(用户, "终端用户", "使用最终产品的用户")
+
+System(react_compiler, "React编译器", "将React代码转换为优化后的JavaScript")
+System(react_app, "React应用", "开发者构建的应用程序") 
+System(github, "GitHub", "代码托管平台")
+System(npm, "npm仓库", "包依赖管理")
+
+Rel(开发者, react_compiler, "使用", "CLI/API")
+Rel(开发者, github, "提交代码")
+Rel(开发者, npm, "发布包") 
+Rel(react_compiler, react_app, "生成优化代码")
+Rel(react_app, 用户, "提供服务")
+
+note right of react_compiler
+  主要功能：
+  - 代码转换
+  - 性能优化
+  - 语法检查
+end note
+@enduml
